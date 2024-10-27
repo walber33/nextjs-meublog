@@ -19,7 +19,7 @@ export default async function PostPage({
   const postImageUrl = post.image
     ? urlFor(post.image)?.width(550).height(310).url()
     : null;
-  const title = '<Post/>';
+  const title = post._type === 'review-post' ? '<Review/>' : '<Post/>';
   return (
     <main className='container mx-auto min-h-screen max-w-7xl p-8'>
       <Heading heading='primary'>{title}</Heading>
