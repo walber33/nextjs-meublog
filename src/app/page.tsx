@@ -24,7 +24,7 @@ export default async function IndexPage() {
 
   const title = '<Blog/>';
   return (
-    <main className='container mx-auto min-h-screen max-w-7xl p-8'>
+    <main className='container mx-auto min-h-screen max-w-screen-xl p-8'>
       <Heading heading='primary'> {title} </Heading>
 
       <Heading heading='secondary'>Reviews</Heading>

@@ -21,7 +21,7 @@ export default async function PostPage({
     : null;
   const title = post._type === 'review-post' ? '<Review/>' : '<Post/>';
   return (
-    <main className='container mx-auto min-h-screen max-w-7xl p-8'>
+    <main className='container mx-auto min-h-screen max-w-screen-xl p-8'>
       <Heading heading='primary'>{title}</Heading>
       <Link href='/' className='hover:underline'>
         ← Voltar a página principal
