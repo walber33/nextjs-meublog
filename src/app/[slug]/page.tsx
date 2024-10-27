@@ -3,6 +3,7 @@ import { urlFor } from '@/utils';
 import { client } from '@/sanity/client';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Heading, RatingIcon } from '@/components';
 
 const POST_QUERY = `*[_type == "post" || _type == "review-post"][slug.current == $slug][0]`;
 
@@ -20,23 +21,32 @@ export default async function PostPage({
     : null;
   const title = '<Post/>';
   return (
-    <main className='container mx-auto min-h-screen max-w-3xl p-8 flex flex-col gap-4'>
-      <h1 className='text-4xl font-bold mb-8 w-full text-center'>{title}</h1>
+    <main className='container mx-auto min-h-screen max-w-7xl p-8'>
+      <Heading heading='primary'>{title}</Heading>
       <Link href='/' className='hover:underline'>
-        ← Back to posts
+        ← Voltar a página principal
       </Link>
       {postImageUrl && (
-        <Image
-          src={postImageUrl}
-          alt={post.title}
-          className='aspect-video rounded-xl'
-          width='800'
-          height='500'
-        />
+        <div className='relative w-fit'>
+          <RatingIcon className='absolute top-2 right-2'>
+            {post.rating}
+          </RatingIcon>
+          <Image
+            src={postImageUrl}
+            alt={post.title}
+            className='aspect-video rounded-xl'
+            width='800'
+            height='500'
+          />
+        </div>
       )}
-      <h1 className='text-4xl font-bold mb-8'>{post.title}</h1>
-      <div className='prose'>
-        <p>Published: {new Date(post.publishedAt).toLocaleDateString()}</p>
+      <div className='flex gap-2'>
+        <h1 className='text-4xl font-bold mb-1'>{post.title}</h1>
+      </div>
+      <div className='max-w-3xl'>
+        <p className='text-sm mb-4'>
+          Publicado: {new Date(post.publishedAt).toLocaleDateString()}
+        </p>
         {Array.isArray(post.body) && <PortableText value={post.body} />}
       </div>
     </main>

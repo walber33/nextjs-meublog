@@ -4,6 +4,7 @@ import { type SanityDocument } from 'next-sanity';
 import { client } from '@/sanity/client';
 import Image from 'next/image';
 import { urlFor } from '@/utils';
+import { Heading, RatingIcon } from '@/components';
 
 const POSTS_QUERY = `*[
   _type == "post" ||  _type == "review-post"
@@ -24,16 +25,18 @@ export default async function IndexPage() {
   const title = '<Blog/>';
   return (
     <main className='container mx-auto min-h-screen max-w-7xl p-8'>
-      <h1 className='text-4xl font-bold mb-8 w-full text-center'> {title} </h1>
+      <Heading heading='primary'> {title} </Heading>
 
-      <h1 className='text-4xl font-bold mb-8 border-b max-w-fit'>Reviews</h1>
+      <Heading heading='secondary'>Reviews</Heading>
       <ul className='flex flex-wrap gap-y-4 justify-between mb-8'>
         {reviews.map((review) => {
           const image = urlFor(review.image)?.width(550).height(310).url();
-
           return (
-            <li className='hover:underline' key={review._id}>
+            <li className='hover:underline relative' key={review._id}>
               <Link href={`/${review.slug.current}`}>
+                <RatingIcon className='absolute top-2 right-2'>
+                  {review.rating}
+                </RatingIcon>
                 <Image
                   src={image ?? ''}
                   alt={review.title}
@@ -41,7 +44,7 @@ export default async function IndexPage() {
                   width='550'
                   height='310'
                 />
-                <h2 className='text-xl font-semibold'>{review.title}</h2>
+                <Heading heading='tertiary'>{review.title}</Heading>
                 <p>{new Date(review.publishedAt).toLocaleDateString()}</p>
               </Link>
             </li>
@@ -49,7 +52,7 @@ export default async function IndexPage() {
         })}
       </ul>
 
-      <h1 className='text-4xl font-bold mb-8 border-b max-w-fit'>Posts</h1>
+      <Heading heading='secondary'>Posts</Heading>
       <ul className='flex flex-wrap gap-y-4 justify-between'>
         {posts.map((post) => {
           const image = urlFor(post.image)?.width(550).height(310).url();
@@ -64,7 +67,7 @@ export default async function IndexPage() {
                   width='550'
                   height='310'
                 />
-                <h2 className='text-xl font-semibold'>{post.title}</h2>
+                <Heading heading='tertiary'>{post.title}</Heading>
                 <p>{new Date(post.publishedAt).toLocaleDateString()}</p>
               </Link>
             </li>
