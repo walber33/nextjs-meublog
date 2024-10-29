@@ -28,25 +28,30 @@ export default async function IndexPage() {
       <Heading heading='primary'> {title} </Heading>
 
       <Heading heading='secondary'>Reviews</Heading>
-      <ul className='flex flex-wrap gap-y-4 justify-between mb-8 list-none'>
+      <ul className='flex flex-wrap gap-4 justify-between mb-8 list-none'>
         {reviews.map((review) => {
           const image =
             review.image &&
             urlFor(review.image)?.width(550)?.height(310)?.url();
           return (
-            <li className='hover:underline relative' key={review._id}>
+            <li
+              className='hover:underline relative w-full max-w-[550px]'
+              key={review._id}
+            >
               <Link href={`/${review.slug.current}`} prefetch={true}>
                 <RatingIcon className='absolute top-2 right-2'>
                   {review.rating}
                 </RatingIcon>
-                {image && (
+                {image ? (
                   <Image
-                    src={image ?? ''}
+                    src={image}
                     alt={review.title}
                     className='aspect-video rounded-xl'
                     width='550'
                     height='310'
                   />
+                ) : (
+                  <div className='aspect-video rounded-xl bg-transparent' />
                 )}
                 <Heading heading='tertiary'>{review.title}</Heading>
                 <p>{new Date(review.publishedAt).toLocaleDateString()}</p>
@@ -57,22 +62,24 @@ export default async function IndexPage() {
       </ul>
 
       <Heading heading='secondary'>Posts</Heading>
-      <ul className='flex flex-wrap gap-y-4 justify-between list-none'>
+      <ul className='flex flex-wrap gap-4 justify-between list-none'>
         {posts.map((post) => {
           const image =
             post.image && urlFor(post.image)?.width(550)?.height(310)?.url();
 
           return (
-            <li className='hover:underline' key={post._id}>
+            <li className='hover:underline w-full max-w-[550px]' key={post._id}>
               <Link href={`/${post.slug.current}`}>
-                {image && (
+                {image ? (
                   <Image
-                    src={image ?? ''}
+                    src={image}
                     alt={post.title}
                     className='aspect-video rounded-xl'
                     width='550'
                     height='310'
                   />
+                ) : (
+                  <div className='aspect-video rounded-xl bg-transparent' />
                 )}
                 <Heading heading='tertiary'>{post.title}</Heading>
                 <p>{new Date(post.publishedAt).toLocaleDateString()}</p>
