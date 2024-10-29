@@ -1,4 +1,3 @@
-import { Heading } from './heading';
-import { RatingIcon } from './ratingIcon';
-
-export { Heading, RatingIcon };
+export { Heading } from './heading';
+export { RatingIcon } from './ratingIcon';
+export { PostItem } from './postItem';

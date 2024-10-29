@@ -17,7 +17,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: 'Meu Blog',
   description:
-    'Blog utilizado para aprender novas skills e postas o que eu quiser.',
+    'Blog utilizado para aprender novas skills, postar sobre projetos e interesses pessoais.',
 };
 
 export default function RootLayout({

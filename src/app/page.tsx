@@ -1,10 +1,7 @@
-import Link from 'next/link';
 import { type SanityDocument } from 'next-sanity';
 
 import { client } from '@/sanity/client';
-import Image from 'next/image';
-import { urlFor } from '@/utils';
-import { Heading, RatingIcon } from '@/components';
+import { Heading, PostItem } from '@/components';
 
 const POSTS_QUERY = `*[
   _type == "post" ||  _type == "review-post"
@@ -30,62 +27,14 @@ export default async function IndexPage() {
       <Heading heading='secondary'>Reviews</Heading>
       <ul className='flex flex-wrap gap-4 justify-between mb-8 list-none'>
         {reviews.map((review) => {
-          const image =
-            review.image &&
-            urlFor(review.image)?.width(550)?.height(310)?.url();
-          return (
-            <li
-              className='hover:underline relative w-full max-w-[550px]'
-              key={review._id}
-            >
-              <Link href={`/${review.slug.current}`} prefetch={true}>
-                <RatingIcon className='absolute top-2 right-2'>
-                  {review.rating}
-                </RatingIcon>
-                {image ? (
-                  <Image
-                    src={image}
-                    alt={review.title}
-                    className='aspect-video rounded-xl'
-                    width='550'
-                    height='310'
-                  />
-                ) : (
-                  <div className='aspect-video rounded-xl bg-transparent' />
-                )}
-                <Heading heading='tertiary'>{review.title}</Heading>
-                <p>{new Date(review.publishedAt).toLocaleDateString()}</p>
-              </Link>
-            </li>
-          );
+          return <PostItem post={review} key={review._id} />;
         })}
       </ul>
 
       <Heading heading='secondary'>Posts</Heading>
       <ul className='flex flex-wrap gap-4 justify-between list-none'>
         {posts.map((post) => {
-          const image =
-            post.image && urlFor(post.image)?.width(550)?.height(310)?.url();
-
-          return (
-            <li className='hover:underline w-full max-w-[550px]' key={post._id}>
-              <Link href={`/${post.slug.current}`}>
-                {image ? (
-                  <Image
-                    src={image}
-                    alt={post.title}
-                    className='aspect-video rounded-xl'
-                    width='550'
-                    height='310'
-                  />
-                ) : (
-                  <div className='aspect-video rounded-xl bg-transparent' />
-                )}
-                <Heading heading='tertiary'>{post.title}</Heading>
-                <p>{new Date(post.publishedAt).toLocaleDateString()}</p>
-              </Link>
-            </li>
-          );
+          return <PostItem post={post} key={post._id} />;
         })}
       </ul>
     </main>
