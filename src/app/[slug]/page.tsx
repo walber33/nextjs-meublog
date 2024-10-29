@@ -16,10 +16,12 @@ export default async function PostPage({
 }) {
   const slug = await params;
   const post = await client.fetch<SanityDocument>(POST_QUERY, slug, options);
+
   const postImageUrl = post.image
-    ? urlFor(post.image)?.width(550).height(310).url()
+    ? urlFor(post.image)?.width(550)?.height(310)?.url()
     : null;
   const title = post._type === 'review-post' ? '<Review/>' : '<Post/>';
+
   return (
     <main className='container mx-auto min-h-screen max-w-screen-xl p-8'>
       <Heading heading='primary'>{title}</Heading>
@@ -28,9 +30,11 @@ export default async function PostPage({
       </Link>
       {postImageUrl && (
         <div className='relative w-fit'>
-          <RatingIcon className='absolute top-2 right-2'>
-            {post.rating}
-          </RatingIcon>
+          {post._type === 'review-post' && (
+            <RatingIcon className='absolute top-2 right-2'>
+              {post.rating}
+            </RatingIcon>
+          )}
           <Image
             src={postImageUrl}
             alt={post.title}
