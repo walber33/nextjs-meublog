@@ -47,7 +47,7 @@ export default async function PostPage({
       <div className='flex gap-2'>
         <h1 className='text-4xl font-bold mb-1'>{post.title}</h1>
       </div>
-      <div className='max-w-3xl [&>img]:max-w-lg'>
+      <div className='max-w-3xl [&>img]:max-w-lg [&>img]:w-full'>
         <p className='text-sm mb-4'>
           Publicado: {new Date(post.publishedAt).toLocaleDateString()}
         </p>
