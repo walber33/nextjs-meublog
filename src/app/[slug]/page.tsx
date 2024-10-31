@@ -3,7 +3,7 @@ import { urlFor } from '@/utils';
 import { client } from '@/sanity/client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Heading, RatingIcon } from '@/components';
+import { Heading, ImageHandler, RatingIcon } from '@/components';
 
 const POST_QUERY = `*[_type == "post" || _type == "review-post"][slug.current == $slug][0]`;
 
@@ -47,11 +47,16 @@ export default async function PostPage({
       <div className='flex gap-2'>
         <h1 className='text-4xl font-bold mb-1'>{post.title}</h1>
       </div>
-      <div className='max-w-3xl'>
+      <div className='max-w-3xl [&>img]:max-w-lg'>
         <p className='text-sm mb-4'>
           Publicado: {new Date(post.publishedAt).toLocaleDateString()}
         </p>
-        {Array.isArray(post.body) && <PortableText value={post.body} />}
+        {Array.isArray(post.body) && (
+          <PortableText
+            value={post.body}
+            components={{ types: { image: ImageHandler } }}
+          />
+        )}
       </div>
     </main>
   );
