@@ -14,7 +14,7 @@ export const PostItem = ({ post }: { post: SanityDocument }) => {
     >
       <Link href={`/${post.slug.current}`} prefetch={true}>
         {post._type === 'review-post' && (
-          <RatingIcon className='absolute top-2 right-2 z-10 group-hover:rotate-6 transition duration-300 ease-in-out'>
+          <RatingIcon className='absolute top-2 right-2 z-10 transition duration-300 ease-in-out'>
             {post.rating}
           </RatingIcon>
         )}
@@ -23,7 +23,7 @@ export const PostItem = ({ post }: { post: SanityDocument }) => {
             <Image
               src={image}
               alt={post.title}
-              className='aspect-video rounded-xl group-hover:transform group-hover:scale-150 transition duration-300 ease-in-out group-hover:rotate-3 '
+              className='aspect-video rounded-xl group-hover:transform group-hover:scale-105 transition duration-300 ease-in-out '
               width='550'
               height='310'
             />
