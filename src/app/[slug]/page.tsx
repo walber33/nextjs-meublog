@@ -18,7 +18,7 @@ export default async function PostPage({
   const post = await client.fetch<SanityDocument>(POST_QUERY, slug, options);
 
   const postImageUrl = post.image
-    ? urlFor(post.image)?.width(550)?.height(310)?.url()
+    ? urlFor(post.image)?.height(500)?.url()
     : null;
   const title = post._type === 'review-post' ? '<Review/>' : '<Post/>';
 
@@ -29,7 +29,7 @@ export default async function PostPage({
         ← Voltar a página principal
       </Link>
       {postImageUrl && (
-        <div className='relative w-fit'>
+        <div className='relative aspect-video w-full max-w-[550px] max-h-[310px] overflow-hidden rounded-xl flex justify-center'>
           {post._type === 'review-post' && (
             <RatingIcon className='absolute top-2 right-2'>
               {post.rating}
@@ -38,7 +38,8 @@ export default async function PostPage({
           <Image
             src={postImageUrl}
             alt={post.title}
-            className='aspect-video rounded-xl'
+            // Adjust image size and aspect ratio
+            className='rounded-xl w-auto'
             width='800'
             height='500'
           />

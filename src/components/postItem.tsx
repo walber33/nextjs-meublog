@@ -5,8 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export const PostItem = ({ post }: { post: SanityDocument }) => {
-  const image =
-    post.image && urlFor(post.image)?.width(550)?.height(310)?.url();
+  const image = post.image && urlFor(post.image)?.height(310).url();
   return (
     <li
       className='group hover:underline hover:cursor-pointer relative w-full max-w-[550px] z-10'
@@ -18,12 +17,12 @@ export const PostItem = ({ post }: { post: SanityDocument }) => {
             {post.rating}
           </RatingIcon>
         )}
-        <div className='aspect-video max-w-[550px] max-h-[310px] overflow-hidden rounded-xl'>
+        <div className='aspect-video w-full max-w-[550px] max-h-[310px] overflow-hidden rounded-xl flex justify-center'>
           {image ? (
             <Image
               src={image}
               alt={post.title}
-              className='aspect-video rounded-xl group-hover:transform group-hover:scale-105 transition duration-300 ease-in-out '
+              className='rounded-xl group-hover:transform group-hover:scale-105 transition duration-300 ease-in-out w-auto'
               width='550'
               height='310'
             />
