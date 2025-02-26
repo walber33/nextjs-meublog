@@ -16,20 +16,19 @@ export default async function IndexPage() {
     {},
     options
   );
-  const reviews = allposts.filter((post) => post._type === 'review-post');
   const posts = allposts.filter((post) => post._type === 'post');
 
-  const title = '<Blog/>';
   return (
     <main className='container mx-auto min-h-screen max-w-screen-xl p-8'>
-      <Heading heading='primary'> {title} </Heading>
-
-      <Heading heading='secondary'>Reviews</Heading>
-      <ul className='flex flex-wrap gap-4 justify-between mb-8 list-none'>
-        {reviews.map((review) => {
-          return <PostItem post={review} key={review._id} />;
-        })}
-      </ul>
+      <Heading heading='primary' className='mx-auto mb-[5px]'>
+        Hi, I&apos;m Walber
+      </Heading>
+      <p className='mx-auto font-bold border-b leading-6 text-xl max-w-fit'>
+        a frontend software developer from Brazil.
+      </p>
+      <p className='mx-auto mb-8 font-bold border-b leading-6 text-xl max-w-fit'>
+        Here, I write about anything I find interesting to share.
+      </p>
 
       <Heading heading='secondary'>Posts</Heading>
       <ul className='flex flex-wrap gap-4 justify-between list-none'>
