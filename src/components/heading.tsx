@@ -19,7 +19,7 @@ export const Heading = ({
     case 'secondary':
       return (
         <h2
-          className={`text-4xl font-bold mb-8 border-b dark:border-gray-300 border-gray-700 max-w-fit ${className}`}
+          className={`text-4xl font-bold mb-8 border-b border-gray-700 max-w-fit ${className}`}
         >
           {children}
         </h2>
