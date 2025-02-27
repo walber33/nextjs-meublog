@@ -17,14 +17,14 @@ export const PostItem = ({ post }: { post: SanityDocument }) => {
             {post.rating}
           </RatingIcon>
         )}
-        <div className='aspect-video w-full max-w-[100vw] md:max-w-[550px] max-h-[310px] overflow-hidden rounded-xl flex justify-center'>
+        <div className='relative aspect-video w-full max-w-[100vw] md:max-w-[550px] max-h-[310px] overflow-hidden rounded-xl flex justify-center'>
           {image ? (
             <Image
               src={image}
               alt={post.title}
-              className='rounded-xl group-hover:transform group-hover:scale-105 transition duration-300 ease-in-out w-auto'
-              width='550'
-              height='310'
+              className='rounded-xl group-hover:transform group-hover:scale-105 transition duration-300 ease-in-out w-auto object-contain'
+              fill={true}
+              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
             />
           ) : (
             <div className='aspect-video rounded-xl bg-transparent' />
