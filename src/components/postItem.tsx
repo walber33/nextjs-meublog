@@ -17,7 +17,7 @@ export const PostItem = ({ post }: { post: SanityDocument }) => {
             {post.rating}
           </RatingIcon>
         )}
-        <div className='aspect-video w-full max-w-[550px] max-h-[310px] overflow-hidden rounded-xl flex justify-center'>
+        <div className='aspect-video w-full max-w-[100vw] md:max-w-[550px] max-h-[310px] overflow-hidden rounded-xl flex justify-center'>
           {image ? (
             <Image
               src={image}
