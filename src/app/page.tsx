@@ -20,13 +20,15 @@ export default async function IndexPage() {
 
   return (
     <main className='container mx-auto min-h-screen max-w-screen-xl p-2 md:p-8 '>
-      <Heading heading='primary' className='mx-auto mb-[5px]'>
-        Hi, I&apos;m Walber
-      </Heading>
-      <p className='mx-auto font-bold  leading-6 text-xl max-w-fit text-center'>
-        a frontend software developer from Brazil.
-        <br /> Here, I write about anything I find interesting to share.
-      </p>
+      <div className='relative after:content-[""] after:absolute after:top-6 md:after:top-7 after:left-0 md:after:left-[calc(33%+5px)] after:w-[calc(100%)] md:after:w-[calc(40%-10px)]  after:h-[calc(80%-10px)] md:after:h-[calc(100%-10px)] after:bg-cyan-900 after:opacity-20 after:pointer-events-none'>
+        <Heading heading='primary' className='mx-auto mb-[5px]'>
+          Hi, I&apos;m Walber
+        </Heading>
+        <p className='mx-auto font-bold  leading-6 text-xl max-w-fit text-center'>
+          a frontend software developer from Brazil.
+          <br /> Here, I write about anything I find interesting to share.
+        </p>
+      </div>
 
       <Heading heading='secondary' className='relative'>
         <div className='after:content-[""] after:absolute after:top-4 after:left-6 after:w-[calc(100%-10px)] after:h-[calc(100%-10px)] after:bg-cyan-900 after:opacity-20 after:pointer-events-none'>
