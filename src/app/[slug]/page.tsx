@@ -1,9 +1,8 @@
 import { PortableText, type SanityDocument } from 'next-sanity';
 import { urlFor } from '@/utils';
 import { client } from '@/sanity/client';
-import Link from 'next/link';
 import Image from 'next/image';
-import { Heading, ImageHandler, RatingIcon } from '@/components';
+import { ImageHandler, RatingIcon } from '@/components';
 
 const POST_QUERY = `*[_type == "post" || _type == "review-post"][slug.current == $slug][0]`;
 
@@ -20,14 +19,9 @@ export default async function PostPage({
   const postImageUrl = post.image
     ? urlFor(post.image)?.height(500)?.url()
     : null;
-  const title = post._type === 'review-post' ? '<Review/>' : '<Post/>';
 
   return (
-    <main className='container mx-auto min-h-screen max-w-screen-xl p-8'>
-      <Heading heading='primary'>{title}</Heading>
-      <Link href='/' className='hover:underline'>
-        ← Voltar a página principal
-      </Link>
+    <>
       {postImageUrl && (
         <div className='relative aspect-video w-full max-w-[550px] max-h-[310px] overflow-hidden rounded-xl flex justify-center'>
           {post._type === 'review-post' && (
@@ -59,6 +53,6 @@ export default async function PostPage({
           />
         )}
       </div>
-    </main>
+    </>
   );
 }
