@@ -1,9 +1,10 @@
 'use client';
 import { Button } from '@/components/button';
 import { Heading } from '@/components/heading';
+import { InvestmentChart } from '@/components/InvestmentChart';
 import { useCalculator } from '@/hooks/useCalculator';
 export default function CalculatorPage() {
-  const { handleSubmit, investmentData } = useCalculator();
+  const { handleSubmit, investmentData, investmentToChart } = useCalculator();
 
   return (
     <div className='mx-auto mt-4 w-fit'>
@@ -46,12 +47,15 @@ export default function CalculatorPage() {
         <Button>Calcular</Button>
       </form>
       {investmentData && (
-        <div>
-          <h2>Resultados</h2>
-          <p>Valor total: {investmentData.totalAmount}</p>
-          <p>Valor investido: {investmentData.amountinvested}</p>
-          <p>Juros totais: {investmentData.totalInterest}</p>
-        </div>
+        <>
+          <div>
+            <h2>Resultados</h2>
+            <p>Valor total: {investmentData.total.amount}</p>
+            <p>Valor investido: {investmentData.total.amountinvested}</p>
+            <p>Juros totais: {investmentData.total.interest}</p>
+          </div>
+          <InvestmentChart data={investmentToChart()} />
+        </>
       )}
     </div>
   );
