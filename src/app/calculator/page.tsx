@@ -10,14 +10,14 @@ export default function CalculatorPage() {
       <Heading heading='primary'>
         Calculadora de Juros (Work in Progress)
       </Heading>
-      <form className='flex flex-col gap-8' onSubmit={handleSubmit}>
+      <form className='flex flex-col gap-8 px-4' onSubmit={handleSubmit}>
         <div className='flex flex-col gap-2'>
-          <div className='flex gap-4 justify-between'>
-            <div>
+          <div className='flex gap-2 md:gap-4 justify-between flex-col md:flex-row'>
+            <div className='flex flex-col md:flex-row justify-between'>
               <label htmlFor='initialValue'>Insira o valor inicial:</label>
               <input name='initialValue' id='initialValue' type='number' />
             </div>
-            <div>
+            <div className='flex flex-col md:flex-row justify-between'>
               <label htmlFor='monthlyContribution'>Aporte mensal:</label>
               <input
                 name='monthlyContribution'
@@ -26,12 +26,12 @@ export default function CalculatorPage() {
               />
             </div>
           </div>
-          <div className='flex gap-4 justify-between'>
-            <div>
+          <div className='flex gap-2 md:gap-4 justify-between flex-col md:flex-row'>
+            <div className='flex flex-col md:flex-row justify-between'>
               <label htmlFor='interestRate'>Insira a taxa de juros:</label>
               <input name='interestRate' id='interestRate' type='number' />
             </div>
-            <div>
+            <div className='flex flex-col md:flex-row justify-between'>
               <label htmlFor='investmentDuration'>
                 Insira o tempo (em anos):
               </label>
