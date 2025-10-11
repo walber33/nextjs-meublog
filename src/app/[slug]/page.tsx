@@ -3,6 +3,7 @@ import { urlFor } from '@/utils';
 import { client } from '@/sanity/client';
 import Image from 'next/image';
 import { ImageHandler, RatingIcon } from '@/components';
+import { notFound } from 'next/navigation';
 
 const POST_QUERY = `*[_type == "post" || _type == "review-post"][slug.current == $slug][0]`;
 
@@ -16,6 +17,9 @@ export default async function PostPage({
   const slug = await params;
   const post = await client.fetch<SanityDocument>(POST_QUERY, slug, options);
 
+  if (!post) {
+    notFound();
+  }
   const postImageUrl = post.image
     ? urlFor(post.image)?.height(500)?.url()
     : null;
