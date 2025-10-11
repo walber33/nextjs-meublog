@@ -2,7 +2,7 @@
 import { Button } from '@/components/button';
 import { Heading } from '@/components/heading';
 import { useCalculator } from '@/hooks/useCalculator';
-export default function calcPage() {
+export default function CalculatorPage() {
   const { handleSubmit, investmentData } = useCalculator();
 
   return (

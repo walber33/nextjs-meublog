@@ -11,6 +11,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+   async rewrites() {
+    return [
+      {
+        source: '/calculadora',
+        destination: '/calculator',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
