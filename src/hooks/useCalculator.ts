@@ -22,6 +22,8 @@ export type ChartDataPoint = {
       compoundInterest: number;
 };
 
+export type GroupByOptions = 'month' | 'year' | 'semester' | 'decade';
+
 export const useCalculator = () => {
   
   const [investmentData, setInvestmentData] = useState<InvestmentData | null>(null);
@@ -41,16 +43,20 @@ export const useCalculator = () => {
     // x = (1+R)^(1/n) - 1
     // onde R é a taxa anual e n é o número de períodos (12 meses)
     const monthlyInterestRate = Math.pow(1 + interestRate / 100, 1 / 12) - 1;
-
+    byPeriod[0] = {
+      total: totalAmount.toFixed(2),
+      compoundInterest: '0',
+      monthlyContribution: initialValue.toFixed(2),
+    };
     for (let i = 0; i < months; i++) {
       const contributed = (initialValue + monthlyContribution * (i + 1));
       totalAmount *= 1 + monthlyInterestRate;
+      totalAmount += monthlyContribution;
       byPeriod[i + 1] = {
         total: totalAmount.toFixed(2),
         compoundInterest: (totalAmount - contributed).toFixed(2),
         monthlyContribution:  contributed.toFixed(2),
       };
-      totalAmount += monthlyContribution;
     }
 
     return {
@@ -75,9 +81,35 @@ export const useCalculator = () => {
     setInvestmentData(calculateInvestment(initialValue, monthlyContribution, interestRate, investmentDuration));
   };
 
-  const investmentToChart = (data = investmentData): ChartDataPoint[] => {
+  const investmentToChart = ({ data = investmentData, groupBy = 'month'}: {data?: InvestmentData | null; groupBy?: GroupByOptions }): ChartDataPoint[] => {
     if (!data) return [];
-    const chartData: ChartDataPoint[] = data.byPeriod ? Object.entries(data.byPeriod).map(([month, values]) => ({
+    const groupFactor = {
+      month: 1,
+      semester: 6,
+      year: 12,
+      decade: 120,
+    }[groupBy];
+    const groupedByPeriod: InvestmentData['byPeriod'] = {};
+    if (groupBy && groupFactor > 1) {
+      Object.entries(data.byPeriod).forEach(([monthStr, values]) => {
+        const month = Number(monthStr);
+        if(month % groupFactor !== 0) return; 
+        const groupKey = Math.ceil(month / groupFactor);
+        if (!groupedByPeriod[groupKey]) {
+          groupedByPeriod[groupKey] = {
+            monthlyContribution: '0',
+            compoundInterest: '0',
+            total: '0',
+          };
+        }
+        groupedByPeriod[groupKey].monthlyContribution =  values.monthlyContribution;
+        groupedByPeriod[groupKey].compoundInterest =  values.compoundInterest;
+        groupedByPeriod[groupKey].total = (Number(values.total || 0)).toFixed(2);
+      });
+    } else {
+      Object.assign(groupedByPeriod, data.byPeriod);
+    }
+    const chartData: ChartDataPoint[] = groupedByPeriod ? Object.entries(groupedByPeriod).map(([month, values]) => ({
       month: Number(month),
       monthlyContribution: Number(values.monthlyContribution),
       total: Number(values.total || 0),

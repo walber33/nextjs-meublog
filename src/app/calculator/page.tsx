@@ -2,10 +2,11 @@
 import { Button } from '@/components/button';
 import { Heading } from '@/components/heading';
 import { InvestmentChart } from '@/components/InvestmentChart';
-import { useCalculator } from '@/hooks/useCalculator';
+import { GroupByOptions, useCalculator } from '@/hooks/useCalculator';
+import { useState } from 'react';
 export default function CalculatorPage() {
   const { handleSubmit, investmentData, investmentToChart } = useCalculator();
-
+  const [groupBy, setGroupBy] = useState<GroupByOptions>('month');
   return (
     <div className='mx-auto mt-4 w-fit'>
       <Heading heading='primary'>
@@ -54,7 +55,27 @@ export default function CalculatorPage() {
             <p>Valor investido: {investmentData.total.amountinvested}</p>
             <p>Juros totais: {investmentData.total.interest}</p>
           </div>
-          <InvestmentChart data={investmentToChart()} />
+          <InvestmentChart
+            data={investmentToChart({
+              data: investmentData,
+              groupBy: groupBy,
+            })}
+            childrenPosition='top'
+          >
+            <div className='flex flex-col gap-2 w-fit'>
+              <label htmlFor='groupBy'>Agrupar por:</label>
+              <select
+                id='groupBy'
+                value={groupBy}
+                onChange={(e) => setGroupBy(e.target.value as GroupByOptions)}
+              >
+                <option value='month'>Mês</option>
+                <option value='year'>Ano</option>
+                <option value='semester'>Semestre</option>
+                <option value='decade'>Década</option>
+              </select>
+            </div>
+          </InvestmentChart>
         </>
       )}
     </div>
