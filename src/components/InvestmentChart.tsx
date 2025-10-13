@@ -45,7 +45,7 @@ export const InvestmentChart = ({
         <Line
           type='monotone'
           dataKey='compoundInterest'
-          stroke='green'
+          stroke='orange'
           strokeWidth={2}
           name='Juros Compostos'
           dot={false}
@@ -59,6 +59,15 @@ export const InvestmentChart = ({
           name='Aporte Mensal'
           dot={false}
           activeDot={{ stroke: 'white', strokeWidth: 1, r: 5 }}
+        />
+        <Line
+          type='monotone'
+          dataKey='totalWithInflation'
+          stroke='green'
+          strokeWidth={2}
+          name='Total ajustado pela inflação'
+          dot={false}
+          activeDot={{ stroke: 'white', strokeWidth: 2, r: 5 }}
         />
         <XAxis dataKey='month' />
         <YAxis dataKey='total' />
