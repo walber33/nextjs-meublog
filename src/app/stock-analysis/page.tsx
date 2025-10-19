@@ -1,48 +1,42 @@
-import { type SanityDocument } from 'next-sanity';
-
 import { client } from '@/sanity/client';
-import { Heading, PostItem } from '@/components';
+import { Heading } from '@/components';
+import { StockAnalysisPost } from '@/app/stock-analysis/types';
+import { StockPostsList } from '@/app/stock-analysis/stockPostList';
 import { mapPostsUrls } from '@/utils/mapPostUrls';
+import { SanityDocument } from 'next-sanity';
 
-const POSTS_QUERY = `*[
-  _type == "post" ||  _type == "review-post"
-  && defined(slug.current)
-]|order(publishedAt desc)[0...12]{_id, _type, title, slug, publishedAt, image, rating}`;
+const POSTS_QUERY = `*[_type == "stock-analysis-post"]{ _id, title, body, slug, publishedAt, type, recommended, image, _type }`;
 
 const options = { next: { revalidate: 300 } };
 
-export default async function IndexPage() {
-  const allposts = await client.fetch<SanityDocument[]>(
+export default async function StocksPage() {
+  const stockPosts = await client.fetch<StockAnalysisPost[]>(
     POSTS_QUERY,
     {},
     options
   );
-  const posts = mapPostsUrls({ posts: allposts }).filter(
-    (post) => post._type === 'post'
-  );
-
+  const postsWithImages = mapPostsUrls({
+    posts: stockPosts as unknown as SanityDocument[],
+  });
   return (
     <main className='container mx-auto min-h-screen max-w-screen-xl p-2 md:p-8 '>
       <div className='relative after:content-[""] after:absolute after:top-6 md:after:top-7 after:left-0 md:after:left-[calc(33%+5px)] after:w-[calc(100%)] md:after:w-[calc(40%-10px)]  after:h-[calc(80%-10px)] md:after:h-[calc(100%-10px)] after:bg-cyan-900 after:opacity-20 after:pointer-events-none'>
         <Heading heading='primary' className='mx-auto mb-[5px]'>
           Hi, I&apos;m Walber
         </Heading>
-        <p className='mx-auto font-bold  leading-6 text-xl max-w-fit text-center'>
-          a frontend software developer from Brazil.
-          <br /> Here, I write about anything I find interesting to share.
+        <p className='mx-auto font-bold  leading-6 text-xl max-w-fit text-center mb-10'>
+          Here i write what i think about stocks.
         </p>
       </div>
 
       <Heading heading='secondary' className='relative'>
         <div className='after:content-[""] after:absolute after:top-4 after:left-6 after:w-[calc(100%-10px)] after:h-[calc(100%-10px)] after:bg-cyan-900 after:opacity-20 after:pointer-events-none'>
-          Posts
+          Stock Analysis Posts
         </div>
       </Heading>
-      <ul className='flex flex-wrap gap-4 justify-between list-none'>
-        {posts.map((post) => {
-          return <PostItem post={post} key={post._id} />;
-        })}
-      </ul>
+      <StockPostsList
+        posts={postsWithImages as unknown as StockAnalysisPost[]}
+      />
     </main>
   );
 }

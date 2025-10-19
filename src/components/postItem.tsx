@@ -1,26 +1,44 @@
-import { Heading, RatingIcon } from '@/components';
-import { urlFor } from '@/utils';
+import { Heading } from '@/components/heading';
+import { RatingIcon } from '@/components/ratingIcon';
+import { toStandardDate } from '@/utils/dateUtils';
 import { SanityDocument } from 'next-sanity';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export const PostItem = ({ post }: { post: SanityDocument }) => {
-  const image = post.image && urlFor(post.image)?.height(310).url();
+export const PostItem = ({
+  post,
+  baseURL = '/',
+}: {
+  post: SanityDocument;
+  baseURL?: string;
+}) => {
   return (
     <li
       className='group hover:underline hover:cursor-pointer relative w-full max-w-[550px] z-10'
       key={post._id}
     >
-      <Link href={`/${post.slug.current}`} prefetch={true}>
+      <Link href={`${baseURL}${post.slug.current}`} prefetch={true}>
         {post._type === 'review-post' && (
           <RatingIcon className='absolute top-2 right-2 z-10 transition duration-300 ease-in-out'>
             {post.rating}
           </RatingIcon>
         )}
+        {post._type === 'stock-analysis-post' && (
+          <>
+            <div
+              className={`absolute top-2 left-2 z-10 ${post.recommended ? 'text-green-600 border-green-600' : 'text-red-600 border-red-600'} font-bold bg-orange-100 border-l-4 px-2 py-1 border text-sm opacity-90`}
+            >
+              {post.recommended ? 'Sim' : 'Não'}
+            </div>
+            <div className='absolute top-2 right-2 z-10 bg-orange-600 border border-l-4 border-blue-600 px-2 py-1 text-sm font-bold text-white '>
+              {post.type}
+            </div>
+          </>
+        )}
         <div className='relative aspect-video w-full max-w-[100vw] md:max-w-[550px] max-h-[310px] overflow-hidden rounded-xl flex justify-center'>
-          {image ? (
+          {post.image ? (
             <Image
-              src={image}
+              src={post.image}
               alt={post.title}
               className='rounded-xl group-hover:transform group-hover:scale-105 transition duration-300 ease-in-out w-auto object-contain'
               fill={true}
@@ -31,7 +49,7 @@ export const PostItem = ({ post }: { post: SanityDocument }) => {
           )}
         </div>
         <Heading heading='tertiary'>{post.title}</Heading>
-        <p>{new Date(post.publishedAt).toLocaleDateString()}</p>
+        <p>{toStandardDate(post.publishedAt)}</p>
       </Link>
     </li>
   );
